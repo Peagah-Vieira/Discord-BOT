@@ -1,7 +1,7 @@
-const { Client, GatewayIntentBits, Message, EmbedBuilder, ConnectionService } = require('discord.js');
+const fs = require('fs');
+const { Client, Collection, GatewayIntentBits, GuildMember, Message, EmbedBuilder, ConnectionService } = require('discord.js');
 const ytdl = require('ytdl-core');
-const yts = require('yt-search');
-const { joinVoiceChannel, getVoiceConnection, createAudioPlayer, NoSubscriberBehavior, AudioResource, createAudioResource } = require('@discordjs/voice');
+const { Player } = require("discord-player");
 const { token } = require('./config.json');
 const client = new Client({
 	intents: [
@@ -14,6 +14,19 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
 	],
 });
+
+client.commands = new Collection();
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
+
+console.log(client.commands);
+
+const player = new Player(client);
 
 client.once('ready', () => {
     console.log(`Gasparzinho acordou, com ${client.users.cache.size} usuários, em ${client.guilds.cache.size} servidores.`); 
@@ -40,7 +53,7 @@ client.on("guildMemberAdd", (member) => {
         description: "Bem-vindo ao Servidor WOWZINHO! Não deixe de ler o <#1028480183986049034>! 😄",
     }
     member.guild.channels.cache.get("1027524936438399038").send({ embeds: [welcomeEmbed] });
-  }); 
+}); 
 
 client.on("guildMemberRemove", (member) => {
     const goodByeEmbed = {
@@ -52,141 +65,77 @@ client.on("guildMemberRemove", (member) => {
         description: "Triste! Vamos apenas esperar que eles tenham gostado da estadia 😭​​",
     }
     member.guild.channels.cache.get("1027524936438399038").send({ embeds: [goodByeEmbed] });
-  }); 
+}); 
 
-client.on('interactionCreate', async (interaction, args) => {
-	if (!interaction.isChatInputCommand()){
-        return;
-    } 
-
-	const { commandName } = interaction;
-
-	if (commandName === 'help') {
-        const helpEmbed = {
-            color: 0x0099ff,
-            title: 'Gasparzinho',
-            url: 'https://github.com/Peagah-Vieira',
-            author: {
-                name: 'Peagah',
-                icon_url: 'https://avatars.githubusercontent.com/u/105545343?s=400&u=7bdea01d63265349adcf159e74bf7e77160db9f8&v=4',
-                url: 'https://github.com/Peagah-Vieira',
-            },
-            description: 'A tribute to my doggy',
-            thumbnail: {
-                url: 'https://i.imgur.com/R8lqIvT.png',
-            },
-            fields: [
-                {
-                    name: 'Commands',
-                    value: 'Meta commands related to the bot!',
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                    inline: false,
-                },
-                {
-                    name: '/play',
-                    value: 'Play a music from link',
-                    inline: true,
-                },
-                {
-                    name: '/pause',
-                    value: 'Pause the current session',
-                    inline: true,
-                },
-                {
-                    name: '/leave',
-                    value: 'Makes me leave the voice channel',
-                    inline: true,
-                },
-            ],
-            image: {
-                url: 'https://i.imgur.com/R8lqIvT.png',
-            },
-            timestamp: new Date().toISOString(),
-            footer: {
-                text: 'I would like to eat some cookies',
-                icon_url: 'https://i.imgur.com/R8lqIvT.png',
-            },
-        };
-		await interaction.reply({ embeds: [helpEmbed] });
-	}
-
-    else if (commandName === 'play') {
-        const voiceChannel = interaction.member.voice.channel;
-
-        if(!voiceChannel){
-            await interaction.reply("You need to be in a channel to execute this command!");
-        }
-
-        else{
-            const voiceConnection = joinVoiceChannel({channelId: voiceChannel.id,guildId: interaction.guildId,adapterCreator: interaction.guild.voiceAdapterCreator,});
-
-            const url = await yts("https://www.youtube.com/watch?v=9IUCayF7Brw").then(x => x.all[0].url);
-
-            let downloadInfo = await ytdl.getInfo(url);
-
-            let stream = await ytdl(downloadInfo.videoDetails.video_url)
-
-            const playEmbed = {title:"Brincar", description: `Playing **[${downloadInfo.videoDetails.title}](${downloadInfo.videoDetails.video_url})** now!`}
-           
-            const player = createAudioPlayer({ behaviors: NoSubscriberBehavior.Play });
-
-            let resouce = createAudioResource(stream);
-
-            try {
-                player.play(resouce);
-
-                voiceConnection.subscribe(player);
-
-                await interaction.reply({ embeds: [playEmbed] });
-
-                player.on(AudioPlayerStatus.Idle, () =>{
-                    voiceConnection.destroy();
-                });
-            }
-            catch (e) {
-                console.log(e);
-                await interaction.reply(`I went through some problems sorry!`);
-            }
-        }
-	}
-
-    else if (commandName === 'pause') {
-        const playEmbed = {
-            title:"Descanso",
-            description: "Parei para beber uma água após latir no canal <#1028480183986049034>!",
+client.on('messageCreate', async message => {
+    if (message.author.bot || !message.guild) {
+      return;
     }
-		await interaction.reply({ embeds: [playEmbed] });
-	}
-
-    else if (commandName === 'leave') {
-        const voiceChannel = interaction.member.voice.channel;
-        const voiceConnection = joinVoiceChannel({channelId: voiceChannel.id,guildId: interaction.guildId,adapterCreator: interaction.guild.voiceAdapterCreator,});
-        const leaveEmbed = {title:"Cochilar",description: `Estou indo tirar um cochilo após ter latido no canal <#${voiceChannel.id}>!`,}
-       
-        try{
-            voiceConnection.destroy();
-            await interaction.reply({ embeds: [leaveEmbed] });
-        }
-        catch(e){
-            console.log(e);
-            await interaction.reply(`I went through some problems sorry!`); 
-        }
-	}
-
-	else if (commandName === 'ping') {
-		await interaction.reply({ content: 'Pong!', ephemeral: true }); //ephemeral mensagem escondida só para quem digitou
-	} 
-
-    else if (commandName === 'server') {
-		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
-	} 
-
-    else if (commandName === 'user') {
-		await interaction.reply('User info.');
-	}
+    if (!client.application?.owner) {
+      await client.application?.fetch();
+    }
+    if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
+      await message.guild.commands
+        .set(client.commands)
+        .then(() => {
+          message.reply('Deployed!');
+        })
+        .catch(err => {
+          message.reply('Could not deploy commands! Make sure the bot has the application.commands permission!');
+          console.error(err);
+        });
+    }
 });
+
+player.on("error", (queue, error) => {
+    console.log(`[${queue.guild.name}] Erro emitido da fila: ${error.message}`);
+});
+
+player.on("connectionError", (queue, error) => {
+    console.log(`[${queue.guild.name}] Erro emitido da conexão: ${error.message}`);
+});
+
+player.on("trackStart", (queue, track) => {
+    const trackStartEmbed = {description: `Começou a tocar **${track.title}** em **${queue.connection.channel.name}** agora!`}
+    queue.metadata.send({ embeds: [trackStartEmbed] });
+});
+
+player.on("trackAdd", (queue, track) => {
+    const trackAddEmbed = {description: `Música **${track.title}** adicionada na fila!!`}
+    queue.metadata.send({ embeds: [trackAddEmbed] });
+});
+
+player.on("botDisconnect", (queue) => {
+    const botDisconnectEmbed = {description: `❌ | Fui desconectado manualmente do canal de voz, limpando a fila!`}
+    queue.metadata.send({ embeds: [botDisconnectEmbed] });
+});
+
+player.on("channelEmpty", (queue) => {
+    const channelEmptyEmbed = {description: `❌ | Ninguém está no canal de voz, saindo...`}
+    queue.metadata.send({ embeds: [channelEmptyEmbed] });
+});
+
+player.on("queueEnd", (queue) => {
+    const queueEndEmbed = {description: `✅ Fila finalizada!`}
+    queue.metadata.send({ embeds: [queueEndEmbed] });
+});
+
+client.on('interactionCreate', async interaction => {
+    const command = client.commands.get(interaction.commandName.toLowerCase());
+  
+    try {
+      if (interaction.commandName == 'ban' || interaction.commandName == 'userinfo') {
+        command.execute(interaction, client);
+      } 
+      else {
+        command.execute(interaction, player);
+      }
+    } 
+    catch (error) {
+        console.error(error);
+        interaction.followUp({content: 'Ocorreu um erro ao tentar executar esse comando!'});
+    }
+  });
+
 
 client.login(token);
