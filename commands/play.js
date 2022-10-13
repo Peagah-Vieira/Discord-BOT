@@ -6,7 +6,7 @@ module.exports = {
   description: 'Toque uma música em seu canal!',
   options: [
     {
-      name: 'query',
+      name: 'pesquisar',
       type: ApplicationCommandOptionType.String,
       description: 'A música que você quer tocar',
       required: true,
@@ -16,7 +16,7 @@ module.exports = {
     try {
       if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
         const notChannelVoiceEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Você não está em um canal de voz!`,
         }
         return void interaction.reply({
@@ -27,7 +27,7 @@ module.exports = {
   
       if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
         const notSameChannelVoiceEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Você não está no meu canal de voz!`
         }
         return void interaction.reply({
@@ -38,7 +38,7 @@ module.exports = {
 
       await interaction.deferReply();
 
-      const query = interaction.options.getString('query');
+      const query = interaction.options.getString('pesquisar');
       const searchResult = await player.search(query, {
           requestedBy: interaction.user,
           searchEngine: QueryType.AUTO,
@@ -47,7 +47,7 @@ module.exports = {
 
       if (!searchResult || !searchResult.tracks.length){
         const notFoundResultEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Nenhum resultado foi encontrado!`,
         }
         return void interaction.followUp({
@@ -73,7 +73,7 @@ module.exports = {
       catch {
         void player.deleteQueue(interaction.guildId);
         const notConnectionVoiceEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Não foi possível participar do seu canal de voz!`,
         }
         return void interaction.followUp({
@@ -82,7 +82,7 @@ module.exports = {
       }
 
       const LoadingPlaylistEmbed = {
-        color: 0x16dddd,
+        color: 0xbcbdbd, // CINZA
         description: `⏱ Carregando sua ${searchResult.playlist ? 'playlist' : 'track'}...`,
       }
 

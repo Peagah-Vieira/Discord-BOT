@@ -63,7 +63,7 @@ client.on("guildDelete", (guild) => {
 
 client.on("guildMemberAdd", (member) => {
     const welcomeEmbed = {
-      color: 0x0ae50a,
+      color: 0x0ae50a, // VERDE
       title: `Boas-Vindas`,
       author: {
           name: `${member.user.tag}`,
@@ -100,7 +100,7 @@ client.on("guildMemberAdd", (member) => {
 
 client.on("guildMemberRemove", (member) => {
   const goodByeEmbed = {
-    color: 0xff0000,
+    color: 0xff0000, //VERMELHO
     title: `Adeus`,
     author: {
         name: `${member.user.tag}`,
@@ -144,10 +144,22 @@ player.on('connectionError', (queue, error) => {
 });
 
 player.on('trackStart', (queue, track) => {
-  const trackStartEmbed = {
-    color: 0x16dddd,
-    description: `Começou a tocar **${track.title}** - **${track.author}** em **${queue.connection.channel.name}** agora!`,
+  const trackStartEmbed = { 
+    color: 0xbcbdbd, // CINZA
+    title: "Começou a tocar",
+    description: `**${track.title}** - **${track.author} (${track.duration})**`,
+    image:{
+      url: `${track.thumbnail}`
+    },
+    footer:{
+      text: `Solicitado por: ${track.requestedBy.username}`,
+      icon_url: `${track.requestedBy.avatarURL({
+        dynamic: true,
+        format: "png"
+      })}`
+    }
   }
+
   queue.metadata.send({
     embeds: [trackStartEmbed],
   });
@@ -155,7 +167,7 @@ player.on('trackStart', (queue, track) => {
 
 player.on('trackAdd', (queue, track) => {
   const trackAddEmbed = {
-    color: 0x16dddd,
+    color: 0xbcbdbd, // CINZA
     description: `Música **${track.title}** adicionada na fila!!`,
   }
   queue.metadata.send({
@@ -165,8 +177,8 @@ player.on('trackAdd', (queue, track) => {
 
 player.on('botDisconnect', (queue) => {
   const botDisconnectEmbed = {
-    color: 0x16dddd,
-    description: `❌ Fui desconectado manualmente do canal de voz, limpando a fila!`,
+    color: 0xff0000, //VERMELHO
+    description: `Fui desconectado manualmente do canal de voz, limpando a fila!`,
   }
   queue.metadata.send({ 
     embeds: [botDisconnectEmbed],
@@ -175,8 +187,8 @@ player.on('botDisconnect', (queue) => {
 
 player.on('channelEmpty', (queue) => {
   const channelEmptyEmbed = {
-    color: 0x16dddd,
-    description: `❌ Ninguém está no canal de voz, saindo...`,
+    color: 0xff0000, //VERMELHO
+    description: `Ninguém está no canal de voz, saindo...`,
   }
   queue.metadata.send({ 
     embeds: [channelEmptyEmbed],
@@ -185,8 +197,8 @@ player.on('channelEmpty', (queue) => {
 
 player.on('queueEnd', (queue) => {
   const queueEndEmbed = {
-    color: 0x16dddd,
-    description: `✅ Fila finalizada!`
+    color: 0x0ae50a, // VERDE
+    description: `Fila finalizada!`
   }
   queue.metadata.send({ 
     embeds: [queueEndEmbed] 

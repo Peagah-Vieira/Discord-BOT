@@ -6,7 +6,7 @@ module.exports = {
           "type": "rich",
           "title": "",
           "description": `Gasparzinho é o cachorro mais fofinho!`,
-          "color": 0x16dddd,
+          "color": 0xbcbdbd, // CINZA
           "fields": [
             {
               "name": `Autor: Peagah#5132`,

@@ -6,7 +6,7 @@ module.exports = {
   async execute(interaction, player) {
     if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
         const notChannelVoiceEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Você não está em um canal de voz!`
         }
         return void interaction.reply({
@@ -17,7 +17,7 @@ module.exports = {
 
     if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
         const notSameChannelVoiceEmbed = {
-          color: 0x16dddd,
+          color: 0xff0000, //VERMELHO
           description: `Você não está no meu canal de voz!`
         }
         return void interaction.reply({
@@ -32,8 +32,8 @@ module.exports = {
 
     if (!queue || !queue.playing){
         const musicNotPlayingEmbed = {
-          color: 0x16dddd,
-          description: '❌ Nenhuma música está sendo tocada!'
+          color: 0xff0000, //VERMELHO
+          description: 'Nenhuma música está sendo tocada!'
         }
         return void interaction.reply({
           embeds: [musicNotPlayingEmbed], 
@@ -44,7 +44,7 @@ module.exports = {
 
     if(success){
       const sucessEmbed = {
-        color: 0x16dddd,
+        color: 0xbcbdbd, // CINZA
         description: '⏸ Pausada!',
       }
       return void interaction.followUp({
@@ -54,7 +54,7 @@ module.exports = {
     else{
       queue.setPaused(false);
       const unpauseEmbed = {
-        color: 0x16dddd,
+        color: 0xbcbdbd, // CINZA
         description: '▶ Reiniciada!',
       }
       return void interaction.followUp({

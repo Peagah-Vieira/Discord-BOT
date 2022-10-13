@@ -13,7 +13,7 @@ module.exports = {
     }
 
     const comandosEmbed = {
-        color: 0x16dddd,
+        color: 0xbcbdbd, // CINZA
         title: "Comandos Implementados!",
         description: str,
     }

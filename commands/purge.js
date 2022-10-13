@@ -25,8 +25,8 @@ module.exports = {
 
     interaction.channel.bulkDelete(fetched).then(() => {
       const deletedEmbed = {
-        color: 0x16dddd,
-        description: '✅ Mensagens excluídas com sucesso',
+        color: 0x0ae50a, // VERDE
+        description: 'Mensagens excluídas com sucesso',
       }
       interaction.reply({
         embeds: [deletedEmbed],
@@ -35,8 +35,8 @@ module.exports = {
     })
     .catch(error => {
       const notDeletedEmbed = {
-        color: 0x16dddd,
-        description: `❌ Não foi possível excluir mensagens devido a: ${error}`,
+        color: 0xff0000, //VERMELHO
+        description: `Não foi possível excluir mensagens devido a: ${error}`,
       }
       interaction.reply({
         embeds: [notDeletedEmbed],
