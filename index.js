@@ -42,12 +42,20 @@ client.on("guildCreate", (guild) => {
   const joinEmbed = {
     color: 0x0ae50a,
     title: `Entrou no Servidor: ${guild.name}!`,
-    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}** \n Data: **${guild.joinedAt}**`,
+    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}**`,
+    footer: {
+      text: `Data: ${guild.joinedAt}`,
+    }
   }
   client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
-  channel.send({ 
-    embeds: [joinEmbed] 
-  });
+  try {
+    channel.send({ 
+      embeds: [joinEmbed],
+    });
+  } 
+  catch(error){
+    console.log(error);
+  }
 });
 
 client.on("guildDelete", (guild) => {
@@ -55,10 +63,20 @@ client.on("guildDelete", (guild) => {
   const leaveEmbed = {
     color: 0xff0000,
     title: `Saiu do Servidor: ${guild.name}!`,
-    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}** \n Data: **${guild.joinedAt}**`,
+    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}**`,
+    footer: {
+      text: `Data: ${guild.joinedAt}`,
+    }
   }
   client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
-  channel.send({ embeds: [leaveEmbed] });
+  try {
+    channel.send({
+      embeds: [leaveEmbed],
+    });
+  } 
+  catch(error){
+    console.log(error);
+  }
 });
 
 client.on("guildMemberAdd", (member) => {
