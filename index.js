@@ -42,7 +42,7 @@ client.on("guildCreate", (guild) => {
   const joinEmbed = {
     color: 0x0ae50a,
     title: `Entrou no Servidor: ${guild.name}!`,
-    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}**`,
+    description: `ID do Dono: **${guild.ownerId}** \n ID do Servidor: **${guild.id}** \n Membros: **${guild.memberCount}**`,
     footer: {
       text: `Data: ${guild.joinedAt}`,
     }
@@ -63,7 +63,7 @@ client.on("guildDelete", (guild) => {
   const leaveEmbed = {
     color: 0xff0000,
     title: `Saiu do Servidor: ${guild.name}!`,
-    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}**`,
+    description: `ID do Dono: **${guild.ownerId}** \n ID do Servidor: **${guild.id}** \n Membros: **${guild.memberCount}**`,
     footer: {
       text: `Data: ${guild.joinedAt}`,
     }
