@@ -1,8 +1,8 @@
 const fs = require('fs');
-const { Client, Collection, GatewayIntentBits, GuildMember, Message, EmbedBuilder, ConnectionService } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, time } = require('discord.js');
 const ytdl = require('ytdl-core');
 const { Player } = require("discord-player");
-const { token, activity, activityType } = require('./config.json');
+const { token} = require('./config.json');
 const client = new Client({
 	intents: [
         GatewayIntentBits.Guilds,
@@ -24,9 +24,22 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    console.log(`Gasparzinho acordou, com ${client.users.cache.size} usuários, em ${client.guilds.cache.size} servidores.`);
-    console.log(client.commands);
+  const channel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
+  const readyEmbed = {
+    color: 0x0ae50a, // VERDE
+    title: "Gasparzinho Acordou",
+    description: ` Presente em: **${client.guilds.cache.size}** servidores \n Data: **${time()}**`,
+  }
+  try {
+    channel.send({ 
+      embeds: [readyEmbed],
+    });
     client.user.setActivity(`Eu estou em ${client.guilds.cache.size} servidores`);
+    console.log("Estou Pronto para ser utilizado!");
+  } 
+  catch(error){
+    console.log(error);
+  }
 });
 
 client.once('reconnecting', () => {
@@ -34,7 +47,13 @@ client.once('reconnecting', () => {
 });
 
 client.once('disconnect', () => {
-  console.log('Disconnect!');
+  const channel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
+  try {
+    channel.send(`Gasparzinho dormiu, na data: **${time()}**.`);
+  } 
+  catch(error){
+    console.log(error);
+  }
 });
 
 client.on("guildCreate", (guild) => {
