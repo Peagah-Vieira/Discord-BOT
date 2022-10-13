@@ -38,37 +38,101 @@ client.once('disconnect', () => {
 });
 
 client.on("guildCreate", (guild) => {
-    console.log(`O bot entrou no servidor ${guild.name} (id: ${guild.id}). População: ${guild.memberCount} membros!`);
-    client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
+  const channel = client.channels.cache.get('1029848898233180220'); //Log-in Channel
+  const joinEmbed = {
+    color: 0x0ae50a,
+    title: `Entrou no Servidor: ${guild.name}!`,
+    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}** \n Data: **${guild.joinedAt}**`,
+  }
+  client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
+  channel.send({ 
+    embeds: [joinEmbed] 
+  });
 });
 
 client.on("guildDelete", (guild) => {
-    console.log(`O bot foi removido do servidor ${guild.name} (id: ${guild.id})!`);
-    client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
+  const channel = client.channels.cache.get('1029848898233180221'); //Leave Channel
+  const leaveEmbed = {
+    color: 0xff0000,
+    title: `Saiu do Servidor: ${guild.name}!`,
+    description: `Dono do Servidor: **${guild.ownerId}** \n Membros: **${guild.memberCount}** \n Data: **${guild.joinedAt}**`,
+  }
+  client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`);
+  channel.send({ embeds: [leaveEmbed] });
 });
 
 client.on("guildMemberAdd", (member) => {
     const welcomeEmbed = {
-        author: {
-            name: `${member.user.tag}`,
-            icon_url: member.user.avatarURL(),
-            url: member.user.avatarURL(),
-        },
-        description: "Bem-vindo ao Servidor WOWZINHO! Não deixe de ler o <#1028480183986049034>! 😄",
+      color: 0x0ae50a,
+      title: `Boas-Vindas`,
+      author: {
+          name: `${member.user.tag}`,
+          icon_url: member.user.avatarURL(),
+          url: member.user.avatarURL(),
+      },
+      description: `${member.user} Boas-Vindas ao Servidor **${member.guild.name}**! Não deixe de checar o canal <#1029848897633394742>! 😄`,
+      image:{
+        url: `https://media4.giphy.com/media/4Zo41lhzKt6iZ8xff9/giphy.gif?cid=ecf05e476lz7l2x4cifar5r8spe3b125fglrg4b7w4z0bb89&rid=giphy.gif&ct=g`,
+        height: 0,
+        width: 0
+      },
+      thumbnail: {
+        url: `${member.user.displayAvatarURL({
+          dynamic: true,
+          format: "png",
+          size: 1024
+        })}`
+      },
+      footer: {
+        text: `ID do usuário: ${member.user.id}`,
+      }
     }
-    member.guild.channels.cache.get("1027524936438399038").send({ embeds: [welcomeEmbed] });
+    try{
+      member.guild.channels.cache.get("1029848897633394747").send({ 
+        embeds: [welcomeEmbed],
+      });
+    }
+    catch (erro){
+      console.log(erro);
+      member.guild.channels.cache.get("1029848898233180222").send('Ocorreu um erro ao enviar a mensagem de boas-vindas!'); //BOT ERROS CHANNEL
+    }
 }); 
 
 client.on("guildMemberRemove", (member) => {
-    const goodByeEmbed = {
-        author: {
-            name: `${member.user.tag}`,
-            icon_url: member.user.avatarURL(),
-            url: member.user.avatarURL(),
-        },
-        description: "Triste! Vamos apenas esperar que eles tenham gostado da estadia 😭​​",
+  const goodByeEmbed = {
+    color: 0xff0000,
+    title: `Adeus`,
+    author: {
+        name: `${member.user.tag}`,
+        icon_url: member.user.avatarURL(),
+        url: member.user.avatarURL(),
+    },
+    description: `Triste! Adeus ${member.user}. Vamos apenas esperar que ele tenha gostado da estadia 😭`,
+    image:{
+      url: `https://media.tenor.com/bgbgJ8tpK0AAAAAM/dog-crying.gif`,
+      height: 0,
+      width: 0
+    },
+    thumbnail: {
+      url: `${member.user.displayAvatarURL({
+        dynamic: true,
+        format: "png",
+        size: 1024
+      })}`
+    },
+    footer: {
+      text: `ID do usuário: ${member.user.id}`,
     }
-    member.guild.channels.cache.get("1027524936438399038").send({ embeds: [goodByeEmbed] });
+  }
+  try{
+    member.guild.channels.cache.get("1029848897633394747").send({ 
+      embeds: [goodByeEmbed],
+    });
+  }
+  catch (erro){
+    console.log(erro);
+    member.guild.channels.cache.get("1029848898233180222").send('Ocorreu um erro ao enviar a mensagem de despedida!'); //BOT ERROS CHANNEL
+  } 
 }); 
 
 player.on('error', (queue, error) => {
@@ -82,7 +146,7 @@ player.on('connectionError', (queue, error) => {
 player.on('trackStart', (queue, track) => {
   const trackStartEmbed = {
     color: 0x16dddd,
-    description: `Começou a tocar **${track.title}** em **${queue.connection.channel.name}** agora!`,
+    description: `Começou a tocar **${track.title}** - **${track.author}** em **${queue.connection.channel.name}** agora!`,
   }
   queue.metadata.send({
     embeds: [trackStartEmbed],
@@ -102,7 +166,7 @@ player.on('trackAdd', (queue, track) => {
 player.on('botDisconnect', (queue) => {
   const botDisconnectEmbed = {
     color: 0x16dddd,
-    description: `❌ | Fui desconectado manualmente do canal de voz, limpando a fila!`,
+    description: `❌ Fui desconectado manualmente do canal de voz, limpando a fila!`,
   }
   queue.metadata.send({ 
     embeds: [botDisconnectEmbed],
@@ -112,7 +176,7 @@ player.on('botDisconnect', (queue) => {
 player.on('channelEmpty', (queue) => {
   const channelEmptyEmbed = {
     color: 0x16dddd,
-    description: `❌ | Ninguém está no canal de voz, saindo...`,
+    description: `❌ Ninguém está no canal de voz, saindo...`,
   }
   queue.metadata.send({ 
     embeds: [channelEmptyEmbed],
