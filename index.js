@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, Collection, GatewayIntentBits, time } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, time, PermissionsBitField } = require('discord.js');
 const ytdl = require('ytdl-core');
 const { Player } = require("discord-player");
 const { token} = require('./config.json');
@@ -35,7 +35,7 @@ client.once('ready', () => {
       embeds: [readyEmbed],
     });
     client.user.setActivity(`Eu estou em ${client.guilds.cache.size} servidores`);
-    console.log("Estou Pronto para ser utilizado!");
+    console.log('Estou pronto para ser utilizado');
   } 
   catch(error){
     console.log(error);
@@ -99,6 +99,7 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on("guildMemberAdd", (member) => {
+    const role = member.guild.roles.cache.find(role => role.name === "Membro");
     const welcomeEmbed = {
       color: 0x0ae50a, // VERDE
       title: `Boas-Vindas`,
@@ -107,7 +108,7 @@ client.on("guildMemberAdd", (member) => {
           icon_url: member.user.avatarURL(),
           url: member.user.avatarURL(),
       },
-      description: `${member.user} Boas-Vindas ao Servidor **${member.guild.name}**! Não deixe de checar o canal <#1029848897633394742>! 😄`,
+      description: `${member.user} Boas-Vindas ao Servidor **${member.guild.name}**, você recebeu a tag **${role}**! Não deixe de checar o canal <#1029848897633394742>! 😄`,
       image:{
         url: `https://media4.giphy.com/media/4Zo41lhzKt6iZ8xff9/giphy.gif?cid=ecf05e476lz7l2x4cifar5r8spe3b125fglrg4b7w4z0bb89&rid=giphy.gif&ct=g`,
         height: 0,
@@ -125,6 +126,7 @@ client.on("guildMemberAdd", (member) => {
       }
     }
     try{
+      member.roles.add(role);
       member.guild.channels.cache.get("1029848897633394747").send({ 
         embeds: [welcomeEmbed],
       });
@@ -254,6 +256,24 @@ client.on('messageCreate', async (message) => {
         message.reply('Não foi possível implantar comandos! Certifique-se de que o bot tenha a permissão application.commands!');
         console.error(err);
       });
+  }
+  if(message.content === '!perm'){
+    const role = message.guild.roles.cache.find(role => role.name === "Membro");
+    const rolePermissions = role.permissions.toArray();
+    const permissions = new Array;
+
+    rolePermissions.forEach((permission) => {
+      permissions.push(permission);
+    });
+
+    message.reply(`A role ${role} tem as seguintes permissões: ${permissions}`);
+    /*
+    if(message.member.permissions.has(PermissionsBitField.Flags.ManageRoles)){
+      message.reply(`O usuário ${message.author.username} pode adicionar e remover cargos`);
+    }
+    else{
+      message.reply(`O usuário ${message.author.username} não pode adicionar e remover cargos`);
+    }*/
   }
 });
 
