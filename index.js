@@ -24,14 +24,15 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-  const channel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
+  const statusChannel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
   const readyEmbed = {
     color: 0x0ae50a, // VERDE
     title: "Gasparzinho Acordou",
     description: ` Presente em: **${client.guilds.cache.size}** servidores \n Data: **${time()}**`,
   }
+
   try {
-    channel.send({ 
+    statusChannel.send({ 
       embeds: [readyEmbed],
     });
     client.user.setActivity(`Eu estou em ${client.guilds.cache.size} servidores`);
@@ -99,7 +100,7 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on("guildMemberAdd", (member) => {
-  
+
   if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
     const errorChannel = member.guild.channels.cache.get("1029848898233180222");
     const permissionErrorEmbed = {
@@ -271,24 +272,6 @@ client.on('messageCreate', async (message) => {
         message.reply('Não foi possível implantar comandos! Certifique-se de que o bot tenha a permissão application.commands!');
         console.error(err);
       });
-  }
-  if(message.content === '!perm'){
-    const role = message.guild.roles.cache.find(role => role.name === "Membro");
-    const rolePermissions = role.permissions.toArray();
-    const permissions = new Array;
-
-    rolePermissions.forEach((permission) => {
-      permissions.push(permission);
-    });
-
-    message.reply(`A role ${role} tem as seguintes permissões: ${permissions}`);
-    /*
-    if(message.member.permissions.has(PermissionsBitField.Flags.ManageRoles)){
-      message.reply(`O usuário ${message.author.username} pode adicionar e remover cargos`);
-    }
-    else{
-      message.reply(`O usuário ${message.author.username} não pode adicionar e remover cargos`);
-    }*/
   }
 });
 
