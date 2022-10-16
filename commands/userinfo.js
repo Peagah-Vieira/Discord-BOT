@@ -11,7 +11,7 @@ module.exports = {
       required: true,
     }
   ],
-  execute(interaction) {
+  async execute(interaction) {
     const user = interaction.options.getMember('user');
     const userInfoEmbed = {
       color: 0xbcbdbd, // CINZA
