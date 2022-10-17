@@ -8,6 +8,8 @@ function loadEvents(client){
   client.once("disconnect", () => clientEvent("disconnect")(client));
 
   // Guild events
+  client.on("guildCreate", (guild) => guildEvent("guildCreate")(client, guild));
+  client.on("guildDelete", (guild) => guildEvent("guildDelete")(client, guild));
   client.on("guildMemberAdd", (member) => guildEvent("guildMemberAdd")(member));
   client.on("guildMemberRemove", (member) => guildEvent("guildMemberRemove")(member));
 }
