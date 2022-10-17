@@ -1,7 +1,7 @@
 **<p align="center"> <img src="https://cdn.discordapp.com/icons/1029848897167835177/cf7be122279d1fd2432ee255a2f82859.png?size=4096" /> </p>**
 
 
-<h1 align="center"> REAPER-2.0  </h1>
+<h1 align="center"> GASPARZINHO-1.0  </h1>
 <p align="center">
 <a href="https://github.com/Simpleboy353/REAPER-2.0/blob/main/LICENSE.md"><img alt="GitHub License" src="https://img.shields.io/github/license/Simpleboy353/REAPER-2.0?style=for-the-badge"></a>
 <a href="https://github.com/Simpleboy353/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Simpleboy353/REAPER-2.0?style=for-the-badge"></a> 
