@@ -74,7 +74,7 @@
 ---
 
 ## Contributing
-- **Join our [Community server](https://discord.gg/6wwhYF4TB)**
+- **Join our [Community server](https://discord.gg/6wwhYF4TB3)**
 
 ---
 
