@@ -69,7 +69,7 @@
 ```json
 {
   "clientId": "APPLICATION-ID-HERE",
-	"guildId": "SERVER-ID-HERE",
+  "guildId": "SERVER-ID-HERE",
   "token": "BOT-TOKEN-HERE"
 }
 ```
