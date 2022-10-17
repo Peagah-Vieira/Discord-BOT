@@ -5,8 +5,7 @@
 <p align="center">
 <a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a>
 <a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a> 
-<a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/network"><img alt="GitHub Forks" src="https://img.shields.io/github/forks/https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/network?style=for-the-badge"></a>
-</p>
+<a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/network"><img alt="GitHub Forks" src="https://img.shields.io/github/forks/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a>
 <h3 align="center">An Multi-purpose Discord bot with many features!</h3>
 
 ---
@@ -75,7 +74,7 @@
 ---
 
 ## Contributing
-- **Join our [Community server](3https://discord.gg/6wwhYF4TB)**
+- **Join our [Community server](https://discord.gg/6wwhYF4TB)**
 
 ---
 
