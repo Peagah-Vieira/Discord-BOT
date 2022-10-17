@@ -18,7 +18,7 @@ module.exports = {
   async execute(interaction){
     if (interaction.user.id === OWNER_ID){
       const destroyBotEmbed = {
-        color: 0x0ae50a, // VERDE
+        color: 0x0ae50a, // verde
         description: `O bot foi desligado com sucesso!`,
       }
       await interaction.reply({
