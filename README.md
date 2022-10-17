@@ -22,37 +22,19 @@
 ## Have suggestions on what could be added?
 - **Leave your suggestions right [here](https://github.com/Simpleboy353/REAPER-2.0/discussions/138) then!**
 
-## What features does Reaper Include?
+## What features does Gasparzinho Include?
 
 <details><summary>Available Features</summary>
 
 | Features             | Availability |
 | -------------------- | ------------ |
-| Anti-Link            |     ✅       |
-| Autorole             |     ✅       |
-| Auto-Mod             |     ✅       |
-| Custom Prefix        |     ✅       |
-| Permanent Database   |     ✅       |
-| Welcomer             |     ✅       |
-| Logging              |     ✅       |
-| Menu(s)              |     ✅       |
-| Slash Commands       |     ✅       |
-| Rep System           |     ✅       |
-
-</details>
-
-<details><summary>Command Categories</summary>
-
-| Commands Category      | Availability |
-| ---------------------- | ------------ |
-| Configuration          |     ✅       |
-| Fun                    |     ✅       |
-| Image                  |     ✅       |
-| Info                   |     ✅       |
-| Moderation             |     ✅       |
-| Music                  |     ✅       |
-| NSFW                   |     ✅       |
-| Utilities              |     ✅       |
+| User Info            |     ✅       |
+| Server Info          |     ✅       |
+| Music Commands       |     ✅       |
+| Welcome Message      |     ✅       |
+| Leave Message        |     ✅       |
+| Auto Role            |     ✅       |
+| Role ADD/REMOVE      |     ✅       |
 
 </details>
 
@@ -60,24 +42,9 @@
 
 <details><summary>Detailed Versions Info</summary>
 
-|              REAPER Versions                           | Support Status |
+|              Gasparzinho Versions                      | Support Status |
 | ------------------------------------------------------ | -------------- |
-| v8.0.0 (V14 Support Added) (Current)                   |         Available        |
-| v7.3.0-stable (Updated Rep System)                     |       Discontinued       |
-| v7.2.0-stable (Rep System)                             |       Discontinued       |
-| v7.1.5-stable (Button controls for music)              |       Discontinued       |
-| v7.1.0-stable (Support for Activities)                 |       Discontinued       |
-| v7.0.0-stable (Music System)                           |       Discontinued       |
-| v6.7.5-alpha (Better Error Logging)                    |       Discontinued       |
-| v6.7.0-beta (Slash Cmds, Thread Events)                |       Discontinued       |
-| v6.6.0-beta (Logging, New UI for settings)             |       Discontinued       |
-| v6.5.0-stable (V13 Support Added)                      |       Discontinued       |
-| v6.3.0-stable (Anti-Link Support)                      |       Discontinued       |       
-| v6.1.0-stable (Error Free Version)                     |       Discontinued       |
-| v5.5.0-stable (Welcomer Added)                         |       Discontinued       |
-| v5.0.0-beta (Autorole Added)                           |       Discontinued       |
-| v4.9.0-alpha (Custom Prefix Added)                     |       Discontinued       |
-| v4.4.0-alpha (Database Support Added)                  |       Discontinued       |
+| v1.0.0-alpha (Inicial Features)                        |       Available          |
 
 </details>
 
