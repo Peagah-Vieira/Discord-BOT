@@ -14,31 +14,41 @@ const client = new Client({
 	],
 });
 const player = new Player(client);
-const commandFiles = fs.readdirSync('./commands').filter( (file) => file.endsWith('.js'));
+const commandFolders = fs.readdirSync('./commands');
 client.commands = new Collection();
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-}
 
-client.once('ready', () => {
+
+client.once('ready', async () => {
   const statusChannel = client.channels.cache.get(process.env.BOTSTATUS_CHAN);
+  const eBotChannel = client.channels.cache.get(process.env.ERROR_CHAN);
+  const server = client.guilds.cache.get(process.env.GUILD_ID);
+
+  for (const folder of commandFolders){
+    const commandsFiles = fs
+    .readdirSync(`./Commands/${folder}`)
+    .filter((file) => file.endsWith(".js"));
+    for (const file of commandsFiles){
+      const commands = require(`./Commands/${folder}/${file}`);
+      client.commands.set(commands.name, commands);
+    }
+  }
+
   const readyEmbed = {
     color: 0x0ae50a, // VERDE
     title: "Gasparzinho Acordou",
     description: ` Presente em: **${client.guilds.cache.size}** servidores \n Data: **${time()}**`,
   }
-
-  try {
+  server.commands.set(client.commands).then( () => {
     statusChannel.send({ 
       embeds: [readyEmbed],
     });
     client.user.setActivity(`Eu estou em ${client.guilds.cache.size} servidores`);
     console.log('Estou pronto para ser utilizado');
-  } 
-  catch(error){
-    console.log(error);
-  }
+  }).catch( err => {
+    console.log(err);
+    eBotChannel.send(`Não foi possível implantar comandos! Certifique-se de que o bot tenha a permissão application.commands!`);
+  });
+
 });
 
 client.once('reconnecting', () => {
@@ -267,6 +277,7 @@ client.on('messageCreate', async (message) => {
     await client.application?.fetch();
   }
   if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
+    console.log(message.guild.commands);
     await message.guild.commands.set(client.commands).then(() => {message.reply('Comandos Configurados!')}).catch(err => {
         message.reply('Não foi possível implantar comandos! Certifique-se de que o bot tenha a permissão application.commands!');
         console.error(err);
