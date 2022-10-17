@@ -13,8 +13,10 @@ module.exports = {
     },
   ],
   async execute(interaction, player) {
-    try {
-      if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
+    const commandChannel = interaction.guild.channels.cache.get(process.env.COMMANDS_CHAN);
+
+    if(interaction.channel.id == commandChannel.id){
+      if(!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
         const notChannelVoiceEmbed = {
           color: 0xff0000, //VERMELHO
           description: `Você não está em um canal de voz!`,
@@ -25,7 +27,7 @@ module.exports = {
         });
       }
   
-      if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
+      if(interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
         const notSameChannelVoiceEmbed = {
           color: 0xff0000, //VERMELHO
           description: `Você não está no meu canal de voz!`
@@ -96,10 +98,15 @@ module.exports = {
         await queue.play();
       } 
     }
-    catch (error) {
-      console.log(error);
-      interaction.followUp({
-        content: 'Ocorreu um erro ao tentar executar esse comando: ' + error.message,
+
+    else{
+      const wrongChannelEmbed = {
+        color: 0xff0000, //VERMELHO
+        description: `Não é permitido executar comandos nesse canal!`,
+      }
+      return void interaction.reply({
+        embeds: [wrongChannelEmbed],
+        ephemeral: true
       });
     }
   }

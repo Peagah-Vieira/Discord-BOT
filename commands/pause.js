@@ -4,7 +4,10 @@ module.exports = {
   name: 'pause',
   description:'Pausar a música atual!',
   async execute(interaction, player) {
-    if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
+    const commandChannel = interaction.guild.channels.cache.get(process.env.COMMANDS_CHAN);
+    
+    if(interaction.channel.id == commandChannel.id){
+      if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
         const notChannelVoiceEmbed = {
           color: 0xff0000, //VERMELHO
           description: `Você não está em um canal de voz!`
@@ -13,9 +16,9 @@ module.exports = {
           embeds: [notChannelVoiceEmbed],
           ephemeral: true
         });
-    }
+      }
 
-    if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
+      if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
         const notSameChannelVoiceEmbed = {
           color: 0xff0000, //VERMELHO
           description: `Você não está no meu canal de voz!`
@@ -24,13 +27,13 @@ module.exports = {
           embeds: [notSameChannelVoiceEmbed], 
           ephemeral: true
         });
-    }
+      }
 
-    await interaction.deferReply();
+      await interaction.deferReply();
 
-    const queue = player.getQueue(interaction.guildId);
+      const queue = player.getQueue(interaction.guildId);
 
-    if (!queue || !queue.playing){
+      if (!queue || !queue.playing){
         const musicNotPlayingEmbed = {
           color: 0xff0000, //VERMELHO
           description: 'Nenhuma música está sendo tocada!'
@@ -39,10 +42,11 @@ module.exports = {
           embeds: [musicNotPlayingEmbed], 
           ephemeral: true,
         });
-    }
-    const success = queue.setPaused(true);
+      }
 
-    if(success){
+      const success = queue.setPaused(true);
+
+      if(success){
       const sucessEmbed = {
         color: 0xbcbdbd, // CINZA
         description: '⏸ Pausada!',
@@ -50,8 +54,8 @@ module.exports = {
       return void interaction.followUp({
         embeds: [sucessEmbed],
       });
-    }
-    else{
+      }
+      else{
       queue.setPaused(false);
       const unpauseEmbed = {
         color: 0xbcbdbd, // CINZA
@@ -59,6 +63,18 @@ module.exports = {
       }
       return void interaction.followUp({
         embeds: [unpauseEmbed],
+      });
+      }
+    }
+
+    else{
+      const wrongChannelEmbed = {
+        color: 0xff0000, //VERMELHO
+        description: `Não é permitido executar comandos nesse canal!`,
+      }
+      return void interaction.reply({
+        embeds: [wrongChannelEmbed],
+        ephemeral: true
       });
     }
   }

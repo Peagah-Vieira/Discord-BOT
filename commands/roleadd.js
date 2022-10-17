@@ -18,53 +18,68 @@ module.exports = {
         }
     ],
     async execute(interaction){
-        const member = interaction.options.getMember('usuario')
-        const cargo = interaction.options.getRole('cargo');
+        const commandChannel = interaction.guild.channels.cache.get(process.env.COMMANDS_CHAN);
+        
+        if(interaction.channel.id == commandChannel.id){
+            const member = interaction.options.getMember('usuario')
+            const cargo = interaction.options.getRole('cargo');
 
-        if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
-            const permissionErrorEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: "Ops! Não tenho permissão para adicionar/remover cargos!"
+            if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
+                const permissionErrorEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: "Ops! Não tenho permissão para adicionar/remover cargos!"
+                }
+                return void interaction.reply({
+                    embeds: [permissionErrorEmbed],
+                    ephemeral: true
+                });
             }
-            return void interaction.reply({
-                embeds: [permissionErrorEmbed],
-                ephemeral: true
-            });
+
+            else if(member.guild.members.me.roles.highest.position <= cargo.position){
+                const errorEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: "Não consigo atribuir membros à esse cargo! Talvez seja um cargo maior do que o meu?"
+                }
+                return void interaction.reply({
+                    embeds: [errorEmbed],
+                    ephemeral: true
+                });
+            }
+
+            else if(member.roles.cache.has(cargo.id)){
+                const alreadyRoleEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: `Não foi possivel atribuir **${cargo}** à ${member.user}!`
+                }
+                return void interaction.reply({
+                    embeds: [alreadyRoleEmbed],
+                    ephemeral: true
+                });
+            }
+
+            else if(!member.roles.cache.has(cargo.id)){
+                const RoleEmbed = {
+                    color: 0x0ae50a, // VERDE
+                    description: `**${cargo}** foi atribuido à ${member.user}!`
+                }
+                member.roles.add(cargo)
+                .then( () => 
+                interaction.reply({
+                    embeds: [RoleEmbed],
+                    ephemeral: true
+                }));
+            }
         }
 
-        else if(member.guild.members.me.roles.highest.position <= cargo.position){
-            const errorEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: "Não consigo atribuir membros à esse cargo! Talvez seja um cargo maior do que o meu?"
+        else{
+            const wrongChannelEmbed = {
+              color: 0xff0000, //VERMELHO
+              description: `Não é permitido executar comandos nesse canal!`,
             }
             return void interaction.reply({
-                embeds: [errorEmbed],
-                ephemeral: true
+              embeds: [wrongChannelEmbed],
+              ephemeral: true
             });
-        }
-
-        else if(member.roles.cache.has(cargo.id)){
-            const alreadyRoleEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: `Não foi possivel atribuir **${cargo}** à ${member.user}!`
-            }
-            return void interaction.reply({
-                embeds: [alreadyRoleEmbed],
-                ephemeral: true
-            });
-        }
-
-        else if(!member.roles.cache.has(cargo.id)){
-            const RoleEmbed = {
-                color: 0x0ae50a, // VERDE
-                description: `**${cargo}** foi atribuido à ${member.user}!`
-            }
-            member.roles.add(cargo)
-            .then( () => 
-            interaction.reply({
-                embeds: [RoleEmbed],
-                ephemeral: true
-            }));
         }
     }
 }

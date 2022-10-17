@@ -18,51 +18,66 @@ module.exports = {
         },
     ],
     async execute(interaction){
-        const member = interaction.options.getMember('usuario')
-        const role = interaction.options.getRole('cargo');
+        const commandChannel = interaction.guild.channels.cache.get(process.env.COMMANDS_CHAN);
+        
+        if(interaction.channel.id == commandChannel.id){
+            const member = interaction.options.getMember('usuario')
+            const role = interaction.options.getRole('cargo');
 
-        if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
-            const permissionErrorEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: "Ops! Não tenho permissão para adicionar/remover cargos!"
+            if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
+                const permissionErrorEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: "Ops! Não tenho permissão para adicionar/remover cargos!"
+                }
+                return void interaction.reply({
+                    embeds: [permissionErrorEmbed],
+                    ephemeral: true
+                });
             }
-            return void interaction.reply({
-                embeds: [permissionErrorEmbed],
-                ephemeral: true
-            });
+
+            else if(member.guild.members.me.roles.highest.position <= role.position){
+                const rolePositionErrorEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: "Não consigo remover membros desse cargo! Talvez seja um cargo maior que o meu?"
+                }
+                return void interaction.reply({
+                    embeds: [rolePositionErrorEmbed],
+                    ephemeral: true
+                });
+            }
+        
+            else if(member.roles.cache.has(role.id)){
+                const removeRoleEmbed = {
+                    color: 0x0ae50a, // VERDE
+                    description: `**${role}** foi removido de ${member.user}!`
+                }
+                member.roles.remove(role).then( () =>
+                interaction.reply({
+                    embeds: [removeRoleEmbed],
+                    ephemeral: true
+                }));
+            }
+
+            else if(!member.roles.cache.has(role.id)){
+                const withoutRoleEmbed = {
+                    color: 0xff0000, //VERMELHO
+                    description: `Não foi possivel remover **${role}** de ${member.user}!`
+                }
+                return void interaction.reply({
+                    embeds: [withoutRoleEmbed],
+                    ephemeral: true
+                });
+            }
         }
 
-        else if(member.guild.members.me.roles.highest.position <= role.position){
-            const rolePositionErrorEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: "Não consigo remover membros desse cargo! Talvez seja um cargo maior que o meu?"
+        else{
+            const wrongChannelEmbed = {
+              color: 0xff0000, //VERMELHO
+              description: `Não é permitido executar comandos nesse canal!`,
             }
             return void interaction.reply({
-                embeds: [rolePositionErrorEmbed],
-                ephemeral: true
-            });
-        }
-    
-        else if(member.roles.cache.has(role.id)){
-            const removeRoleEmbed = {
-                color: 0x0ae50a, // VERDE
-                description: `**${role}** foi removido de ${member.user}!`
-            }
-            member.roles.remove(role).then( () =>
-            interaction.reply({
-                embeds: [removeRoleEmbed],
-                ephemeral: true
-            }));
-        }
-
-        else if(!member.roles.cache.has(role.id)){
-            const withoutRoleEmbed = {
-                color: 0xff0000, //VERMELHO
-                description: `Não foi possivel remover **${role}** de ${member.user}!`
-            }
-            return void interaction.reply({
-                embeds: [withoutRoleEmbed],
-                ephemeral: true
+              embeds: [wrongChannelEmbed],
+              ephemeral: true
             });
         }
     }
