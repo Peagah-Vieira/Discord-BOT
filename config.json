@@ -1,7 +1,5 @@
 {
-    "clientId": "1027524446459789372",
-	"guildId": "1029848897167835177", 
-    "activityType": "PLAYING",
-    "activity": "your music selections",
-    "token": "YOUR-TOKEN-HERE"
+    "clientId": "APPLICATION-ID-HERE",
+	"guildId": "SERVER-ID-HERE",
+    "token": "BOT-TOKEN-HERE"
 }
