@@ -1,8 +1,7 @@
+require('dotenv').config();
 const fs = require('fs');
 const { Client, Collection, GatewayIntentBits, PermissionFlagsBits, time } = require('discord.js');
-const ytdl = require('ytdl-core');
 const { Player } = require("discord-player");
-const { token} = require('./config.json');
 const client = new Client({
 	intents: [
         GatewayIntentBits.Guilds,
@@ -17,14 +16,13 @@ const client = new Client({
 const player = new Player(client);
 const commandFiles = fs.readdirSync('./commands').filter( (file) => file.endsWith('.js'));
 client.commands = new Collection();
-
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
 
 client.once('ready', () => {
-  const statusChannel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
+  const statusChannel = client.channels.cache.get(process.env.BOTSTATUS_CHAN);
   const readyEmbed = {
     color: 0x0ae50a, // VERDE
     title: "Gasparzinho Acordou",
@@ -48,7 +46,7 @@ client.once('reconnecting', () => {
 });
 
 client.once('disconnect', () => {
-  const channel = client.channels.cache.get('1029848897633394745'); //BOT STATUS Channel
+  const channel = client.channels.cache.get(process.env.BOTSTATUS_CHAN);
   try {
     channel.send(`Gasparzinho dormiu, na data: **${time()}**.`);
   } 
@@ -58,7 +56,7 @@ client.once('disconnect', () => {
 });
 
 client.on("guildCreate", (guild) => {
-  const channel = client.channels.cache.get('1029848898233180220'); //Log-in Channel
+  const channel = client.channels.cache.get(process.env.GCREATE_CHAN);
   const joinEmbed = {
     color: 0x0ae50a,
     title: `Entrou no Servidor: ${guild.name}!`,
@@ -79,7 +77,7 @@ client.on("guildCreate", (guild) => {
 });
 
 client.on("guildDelete", (guild) => {
-  const channel = client.channels.cache.get('1029848898233180221'); //Leave Channel
+  const channel = client.channels.cache.get(process.env.GDELETE_CHAN);
   const leaveEmbed = {
     color: 0xff0000,
     title: `Saiu do Servidor: ${guild.name}!`,
@@ -102,7 +100,7 @@ client.on("guildDelete", (guild) => {
 client.on("guildMemberAdd", (member) => {
 
   if(!member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
-    const errorChannel = member.guild.channels.cache.get("1029848898233180222");
+    const errorChannel = member.guild.channels.cache.get(process.env.ERROR_CHAN);
     const permissionErrorEmbed = {
         color: 0xff0000, //VERMELHO
         description: "Ops! Não tenho permissão para adicionar/remover cargos!"
@@ -115,7 +113,8 @@ client.on("guildMemberAdd", (member) => {
 
   else if(member.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)){
     const role = member.guild.roles.cache.find( (role) => role.name === "Membro");
-    const welcomeChannel = member.guild.channels.cache.get("1029848897633394747");
+    const welcomeChannel = member.guild.channels.cache.get(process.env.JOINLEAVE_CHAN);
+    const errorChannel = member.guild.channels.cache.get(process.env.ERROR_CHAN);
     const welcomeEmbed = {
         color: 0x0ae50a, // VERDE
         title: `Boas-Vindas`,
@@ -180,13 +179,13 @@ client.on("guildMemberRemove", (member) => {
     }
   }
   try{
-    member.guild.channels.cache.get("1029848897633394747").send({ 
+    member.guild.channels.cache.get(process.env.JOINLEAVE_CHAN).send({ 
       embeds: [goodByeEmbed],
     });
   }
   catch (erro){
     console.log(erro);
-    member.guild.channels.cache.get("1029848898233180222").send('Ocorreu um erro ao enviar a mensagem de despedida!'); //BOT ERROS CHANNEL
+    member.guild.channels.cache.get(process.env.ERROR_CHAN).send('Ocorreu um erro ao enviar a mensagem de despedida!'); 
   } 
 }); 
 
@@ -292,4 +291,4 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
