@@ -6,8 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+  "open-source",
+  "discord",
+  "discord-bot",
+  "discord.js",
+  "multi-purpose-bot"
+  ],
+  "author": "Peagah",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
@@ -17,5 +23,9 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "ytdl-core": "^4.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT.git"
   }
 }
