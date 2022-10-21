@@ -1,5 +1,5 @@
-module.exports = async(client, role) => {
-    const logChannel = client.channels.cache.get(process.env.CMDLOG_CHAN);
+module.exports = async(role) => {
+    const logChannel = role.guild.channels.cache.get(process.env.CMDLOG_CHAN);
     const roleCreateEmbed = {
         color: 0x0ae50a, //VERDE
         title: `Cargo Criado`,

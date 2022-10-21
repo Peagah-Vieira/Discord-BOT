@@ -1,5 +1,5 @@
-module.exports = async(client, channel) => {
-    const logChannel = client.channels.cache.get(process.env.CMDLOG_CHAN);
+module.exports = async(channel) => {
+    const logChannel = channel.guild.channels.cache.get(process.env.CMDLOG_CHAN);
     const channelCreateEmbed = {
         color: 0x0ae50a, //VERDE
         title: `Novo Canal`,
@@ -8,7 +8,13 @@ module.exports = async(client, channel) => {
             text: `Data: ${channel.createdAt}`,
         }
     }
-    logChannel.send({ 
-        embeds: [channelCreateEmbed],
-    });
+    
+    try {
+        logChannel.send({ 
+            embeds: [channelCreateEmbed],
+        });
+    } 
+    catch {
+        return;
+    }
 }

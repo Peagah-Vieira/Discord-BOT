@@ -10,10 +10,10 @@ function loadEvents(client, player){
 
   // Guild events
   client.on("interactionCreate", (interaction) => guildEvent("interactionCreate")(client, interaction, player));
-  client.on("channelCreate", (channel) => guildEvent("channelCreate")(client, channel));
-  client.on("channelDelete", (channel) => guildEvent("channelDelete")(client, channel));
-  client.on("roleCreate", (role) => guildEvent("roleCreate")(client, role));
-  client.on("roleDelete", (role) => guildEvent("roleDelete")(client, role));
+  client.on("channelCreate", (channel) => guildEvent("channelCreate")(channel));
+  client.on("channelDelete", (channel) => guildEvent("channelDelete")(channel));
+  client.on("roleCreate", (role) => guildEvent("roleCreate")(role));
+  client.on("roleDelete", (role) => guildEvent("roleDelete")(role));
   client.on("guildCreate", (guild) => guildEvent("guildCreate")(client, guild));
   client.on("guildDelete", (guild) => guildEvent("guildDelete")(client, guild));
   client.on("guildMemberAdd", (member) => guildEvent("guildMemberAdd")(member));

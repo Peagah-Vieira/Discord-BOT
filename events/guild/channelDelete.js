@@ -1,5 +1,5 @@
-module.exports = async(client, channel) => {
-    const logChannel = client.channels.cache.get(process.env.CMDLOG_CHAN);
+module.exports = async(channel) => {
+    const logChannel = channel.guild.channels.cache.get(process.env.CMDLOG_CHAN);
     const channelDeleteEmbed = {
         color: 0xff0000, //VERMELHO
         title: `Canal Deletado`,

@@ -1,5 +1,5 @@
-module.exports = async(client, role) => {
-    const logChannel = client.channels.cache.get(process.env.CMDLOG_CHAN);
+module.exports = async(role) => {
+    const logChannel = role.guild.channels.cache.get(process.env.CMDLOG_CHAN);
     const roleDeleteEmbed = {
         color: 0xff0000, //VERMELHO
         title: `Cargo Deletado`,
