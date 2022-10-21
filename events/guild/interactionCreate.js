@@ -1,4 +1,4 @@
-module.exports = async (interaction, client, player) => {
+module.exports = async (client, interaction, player) => {
     const command = client.commands.get(interaction.commandName.toLowerCase());
 
   try {
