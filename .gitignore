@@ -3,3 +3,6 @@ node_modules/
 
 # Ignore arquivos relacionados às chaves de API
 .env
+
+# Ignore o executável FFmpeg
+FFmpeg.exe
