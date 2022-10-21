@@ -1,6 +1,6 @@
 {
   "name": "Gasparzinho-1.0",
-  "version": "1.5.0",
+  "version": "1.8.0",
   "description": "An Open Source discord bot with lots of features",
   "main": "index.js",
   "scripts": {
