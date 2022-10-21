@@ -42,7 +42,8 @@
 
 |              Gasparzinho Versions                      | Support Status |
 | ------------------------------------------------------ | -------------- |
-| v1.5.0-alpha (Strutural Changes)                       |       Available          |
+| v1.8.0-alpha (Docker Added)                            |       Available          |
+| v1.5.0-alpha (Strutural Changes)                       |       discontinued       |
 | v1.0.0-alpha (Inicial Features)                        |       discontinued       |
 
 </details>
