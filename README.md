@@ -1,4 +1,4 @@
-**<p align="center"> <img src="https://cdn.discordapp.com/icons/1029848897167835177/cf7be122279d1fd2432ee255a2f82859.png?size=4096" /> </p>**
+**<p align="center"> <img src="https://imgur.com/gallery/N9zpCnW" /> </p>**
 
 
 <h1 align="center">GASPARZINHO-1.0</h1>
