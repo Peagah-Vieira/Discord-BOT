@@ -1,4 +1,4 @@
-**<p align="center"> <img src="https://imgur.com/gallery/N9zpCnW" /> </p>**
+**<p align="center"> <img src="https://i.imgur.com/GRssNLR.png" /> </p>**
 
 
 <h1 align="center">GASPARZINHO-1.0</h1>
