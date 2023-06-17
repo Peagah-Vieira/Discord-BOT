@@ -1,11 +1,4 @@
-**<p align="center"> <img src="https://i.imgur.com/GRssNLR.png" /> </p>**
-
-
 <h1 align="center">GASPARZINHO 1.0</h1>
-<p align="center">
-<a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a>
-<a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a> 
-<a href="https://github.com/Peagah-Vieira/Gasparzinho-Discord-BOT/network"><img alt="GitHub Forks" src="https://img.shields.io/github/forks/Peagah-Vieira/Gasparzinho-Discord-BOT?style=for-the-badge"></a>
 <h3 align="center">An Multi-purpose Discord bot with many features!</h3>
 
 ---
@@ -96,5 +89,3 @@ WELCOME_ROLE=""
 - **Join our [Community server](https://discord.gg/6wwhYF4TB3)**
 
 ---
-
-## Star the Repo if you liked it!
